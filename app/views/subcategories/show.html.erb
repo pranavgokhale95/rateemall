@@ -1,0 +1,20 @@
+<h1>subcategory#show</h1>
+
+<%= @subcategory._id %>
+
+<% if @subcategory.products.size > 0 %>
+
+<% for product in @subcategory.products %>
+<h3> <%= link_to product.product_name, product %></h3>
+<% end %>
+
+<% end %>
+
+<%= form_for [@subcategory, Product.new] do |f| %>
+
+<p> <%= f.label :product_id %> <%= f.text_field :product_id %> </p>
+
+<p> <%= f.label :product_name %> <%= f.text_field :product_name %> </p>
+
+<p> <%= f.submit %>
+<% end %>

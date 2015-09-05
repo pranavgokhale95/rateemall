@@ -1,0 +1,27 @@
+
+<h1><%= @product._id %></h1>
+
+<% if @product.reviews.size > 0 %>
+
+<% for review in @product.reviews %>
+
+<h3> author: <%= review.author %> </h3>
+<p> review: <%= review.body %> </p>
+
+<% #[@category, subcategory] %>
+<% end %>
+<% end %>
+
+</br>
+</br>
+
+<p> write a review </p>
+<%= form_for [@product, Review.new] do |f| %>
+
+<p> <%= f.label :author %> <%= f.text_field :author %> </p>
+
+<p> <%= f.label :body %> <%= f.text_area :body %> </p>
+
+<p> <%= f.submit %>
+
+<% end %>
