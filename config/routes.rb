@@ -10,7 +10,6 @@ Rails.application.routes.draw do
     resources :subcategories, shallow: true do
       resources :products, shallow: true do
         resources :reviews, shallow: true do
-
         end
       end
 

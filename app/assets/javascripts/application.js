@@ -13,4 +13,8 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
+//= require bootstrap-sprockets
+//= require jquery-1.11.3.min
+//= require jquery.easing.min
+//= require scrolling-nav
 //= require_tree .

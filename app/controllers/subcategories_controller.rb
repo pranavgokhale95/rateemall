@@ -1,8 +1,13 @@
 class SubcategoriesController < ApplicationController
 	def create
 	@category=Category.find(params[:category_id])
-	@subcategory=@category.subcategories.create!(post_params)
-	redirect_to @category
+	@subcategory=@category.subcategories.new(post_params)
+	@subcategory.last_modified=Time.now.utc.iso8601
+	
+	if(@subcategory.save)
+		redirect_to @category
+	end
+
 	end
 
 	def show

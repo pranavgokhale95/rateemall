@@ -29,7 +29,9 @@ gem 'bootstrap-sass'
 gem 'autoprefixer-rails'
 
 gem 'mongoid', '~> 5.0.0.beta', github: 'mongoid/mongoid'
-
+gem 'simple_form'
+gem "sentimentalizer"
+gem 'devise'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

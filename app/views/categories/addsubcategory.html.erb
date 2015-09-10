@@ -1,10 +1,8 @@
 <h1>add subcategory</h1>
 
-<%= form_for [@category, Subcategory.new] do |f| %>
+<%= simple_form_for [@category, Subcategory.new], html: { class: 'form-horizontal' } , wrapper: :horizontal_form do |f| %>
 
-<p> <%= f.label :subcategory_id %> <%= f.text_field :subcategory_id %> </p>
+<p> <%= f.input :subcategory_name %> </p>
 
-<p> <%= f.label :subcategory_name %> <%= f.text_field :subcategory_name %> </p>
-
-<p> <%= f.submit %>
+<p> <%= f.button :submit, :class => "btn-primary" %>
 <% end %>

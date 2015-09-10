@@ -1,9 +1,8 @@
 <h1>Enter new category information</h1>
 
-<%= form_for @category do |f| %>
+<%= simple_form_for(@category,html: { class: 'form-horizontal' }) do |f| %>
 
 <p>
-Category ID<%= f.text_field :category_id %><br/>
 Category Name<%= f.text_field :category_name %><br/>
 </p>
 <br>

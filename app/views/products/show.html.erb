@@ -1,12 +1,14 @@
 
 <h1><%= @product._id %></h1>
-
+<%= (@product.added_date + Time.zone_offset('IST')).strftime("%A,%d %B %Y") %>
 <% if @product.reviews.size > 0 %>
 
 <% for review in @product.reviews %>
 
 <h3> author: <%= review.author %> </h3>
+<p> date: <%= (review.review_date + Time.zone_offset('IST')).strftime("%A, %d %B %Y %H:%M:%S") %> </p>
 <p> review: <%= review.body %> </p>
+<p> rating: <%= review.rating %> </p>
 
 <% #[@category, subcategory] %>
 <% end %>
