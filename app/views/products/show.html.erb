@@ -1,6 +1,15 @@
 
 <h1><%= @product._id %></h1>
+
+<%= image_tag(@product.image.url, :width => "300px", :height => "300px") %>
+<br>
 <%= (@product.added_date + Time.zone_offset('IST')).strftime("%A,%d %B %Y") %>
+
+<% if @product.avg_rating == -1 %>
+<h2> Rating not available </h2>
+<% else %>
+<h2> <%= @product.avg_rating.round(1) %> </h2>
+<% end %>
 <% if @product.reviews.size > 0 %>
 
 <% for review in @product.reviews %>

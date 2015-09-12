@@ -29,8 +29,12 @@ gem 'bootstrap-sass'
 gem 'autoprefixer-rails'
 
 gem 'mongoid', '~> 5.0.0.beta', github: 'mongoid/mongoid'
+gem "mongoid-paperclip", :require => "mongoid_paperclip"
 gem 'simple_form'
 gem "sentimentalizer"
+gem "jquery-turbolinks"
+gem 'rails-footnotes', '~> 4.0'
+gem 'mongoid_search'
 gem 'devise'
 
 # Use ActiveModel has_secure_password

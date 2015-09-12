@@ -1,216 +1,99 @@
+<body >
 <html>
-   <head>
-      <title>Rate-It</title>
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <script src="js/jquery-1.11.3.min.js"></script>
-       <script src="js/jquery.easing.min.js"></script>
-    <script src="js/scrolling-nav.js"></script>   
-    <script src="js/bootstrap.min.js"></script>    
- </head>
-   </head>
-   <body data-spy="scroll" data-target="#myScrollspy" data-offset="20">
-       
-<div class="container-fluid keepspace">
-  <div class="row-fluid">
-    <div class="col-md-2">
-      <!--Sidebar content-->
-     
-            <ul class="nav nav-pills nav-stacked" id="stacked-menu">
-        <h2>Explore</h2>
-        <li><a  class="page-scroll" href="#Carousel1">Most viewed </a></li>
-                <li class="nav-divider"></li>
-              <li><a href="#Carousel2" class="page-scroll">Top rated products </a></li>
-                <li class="nav-divider"></li>
-              <li><a href="#Carousel3" class="page-scroll">New products</a></li>
-        
-            <li class="nav-divider"></li>
-        <li>
-                <a class="nav-container" data-toggle="collapse" data-parent="#stacked-menu" href="#p2">Categories<div class="caret-container"><span class="caret arrow"></span></div></a>          
-          <ul class="nav nav-pills nav-stacked collapse" id="p2">
-            <% @categories = Category.all %>
-            <% for category in @categories %>
+<head>
+  <title>Rate-It</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+</head>
+<body data-spy="scroll" data-target="#myScrollspy" data-offset="20" data-no-turbolink="true">
 
-<div class="timeline_event" data-toggle="modal" data-target="#<%= dom_id(category, :infos) %>">
-            <li> <%= link_to category._id, "#" %> </li>
-           </div>
+  <div class="container-fluid keepspace">
+    <div class="row-fluid">
+      <div class="col-md-2">
+        <!--Sidebar content-->
+
+        <ul class="nav nav-pills nav-stacked" id="stacked-menu">
+          <h2>Explore</h2>
+          <li><a  class="page-scroll" href="#Carousel1">Most viewed </a></li>
+          <li class="nav-divider"></li>
+          <li><a href="#Carousel2" class="page-scroll">Top rated products </a></li>
+          <li class="nav-divider"></li>
+          <li><a href="#Carousel3" class="page-scroll">New products</a></li>
+
+          <li class="nav-divider"></li>
+          <li>
+            <a class="nav-container" data-toggle="collapse" data-parent="#stacked-menu" href="#p2">Categories<div class="caret-container"><span class="caret arrow"></span></div></a>          
+            <ul class="nav nav-pills nav-stacked collapse" id="p2">
+              <% @categories = Category.all %>
+              <% for category in @categories %>
+
+              <div class="timeline_event" data-toggle="modal" data-target="#<%= dom_id(category, :infos) %>">
+                <li> <%= link_to category._id, "#" %> </li>
+              </div>
               <div class="modal fade" id="<%= dom_id(category, :infos) %>" role="dialog">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title"><%= category._id %></h4>
-        </div>
-        <div class="modal-body">
-          <ul>
-            <% @category=Category.find(category._id)%>
-              <% for subcategory in @category.subcategories %>
-              <li> <%= link_to subcategory._id, subcategory %> </li>
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                      <h4 class="modal-title"><%= category._id %></h4>
+                    </div>
+                    <div class="modal-body">
+                      <ul>
+                        <% @category=Category.find(category._id)%>
+                        <% for subcategory in @category.subcategories %>
+                        <li> <%= link_to subcategory._id, subcategory %> </li>
+                        <% end %>
+                      </ul>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               <% end %>
             </ul>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
+          </li>               
+        </ul>
       </div>
-    </div>
-   </div>
+    </div> 
 
-   <% end %>
- </ul>
- </li>               
- </ul>
-</div>
-</div> 
-        
     <div class="col-md-10">
       <!--Body content-->
-        <div class="row">
+      <div class="row">
         <div class="col-md-6 no-pad margin">
-        <a href="#">
-    <img class="img-responsive" src="/assets/dummy.jpg"></a>
+          <a href="#">
+            <img class="img-responsive" src="/assets/dummy.jpg"></a>
+          </div>
+
+          <div class="col-md-3 no-pad">
+           <img class="img-responsive" src="/assets/dummy.jpg">
+         </div>
+
+         <div class="col-md-3 no-pad">
+           <img class="img-responsive" src="/assets/dummy.jpg">
+         </div>
+         <div class="col-md-3 no-pad">
+           <img class="img-responsive" src="/assets/dummy.jpg">
+         </div>
+         <div class="col-md-3 no-pad">
+
+           <img class="img-responsive" src="/assets/dummy.jpg">
+
+         </div>
+       </div>    
+
+       <%= render '/shared/carousel1' %>
+
+       <%= render '/shared/carousel2' %> 
+
+       <%= render '/shared/carousel3' %>
+
+     </div>
+
+
    </div>
-
-   <div class="col-md-3 no-pad">
-     <img class="img-responsive" src="/assets/dummy.jpg">
-   </div>
-
-   <div class="col-md-3 no-pad">
-     <img class="img-responsive" src="/assets/dummy.jpg">
-   </div>
-            <div class="col-md-3 no-pad">
-     <img class="img-responsive" src="/assets/dummy.jpg">
-   </div>
-            <div class="col-md-3 no-pad">
-                
-     <img class="img-responsive" src="/assets/dummy.jpg">
-   
-   </div>
-        </div>    
-    
-    <div id="Carousel1" class="most-viewed">
-    <h1>Most viewed products</h1>
-            
-        <div id="myCarousel" class="carousel slide" data-ride="carousel" style="height: 380px;">
-    <!-- Carousel indicators -->
-    <ol class="carousel-indicators">
-        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-        <li data-target="#myCarousel" data-slide-to="1"></li>
-        <li data-target="#myCarousel" data-slide-to="2"></li>
-    </ol>   
-
-    <!-- Wrapper for carousel items -->
-    <div class="carousel-inner">
-        <div class="item active">
-            <img src="/assets/dummy.jpg" alt="First Slide" height="300px" width="300px">
-        </div>
-        <div class="item">
-            <img src="/assets/dummy.jpg" alt="Second Slide" height="300px" width="300px">
-        </div>
-        <div class="item">
-            <img src="/assets/dummy.jpg" alt="Third Slide"
-                 height="300px" width="300px">
-        </div>
-    </div>
-
-    <!-- Carousel controls -->
-    <a class="carousel-control left" href="#myCarousel" data-slide="prev">
-        <span class="glyphicon glyphicon-chevron-left"></span>
-    </a>
-    <a class="carousel-control right" href="#myCarousel" data-slide="next">
-        <span class="glyphicon glyphicon-chevron-right"></span>
-    </a>
-</div>
-        
-        </div>    
-          
-     
-    <div id="Carousel2" class="top-rated">
-    <h1>Carousel2</h1>
-    <!-------------------------------------------------------->
-        <div id="myCarousel2" class="carousel slide" data-ride="carousel" style="height: 380px;">
-    <!-- Carousel indicators -->
-    <ol class="carousel-indicators">
-        <li data-target="#myCarousel2" data-slide-to="0" class="active"></li>
-        <li data-target="#myCarousel2" data-slide-to="1"></li>
-        <li data-target="#myCarousel2" data-slide-to="2"></li>
-    </ol>   
-    <!-- Wrapper for carousel items -->
-    <div class="carousel-inner">
-        <div class="item active">
-            <img src="/assets/dummy.jpg" alt="First Slide" height="300px" width="300px">
-        </div>
-        <div class="item">
-            <img src="/assets/dummy.jpg" alt="Second Slide" height="300px" width="300px">
-        </div>
-        <div class="item">
-            <img src="/assets/dummy.jpg" alt="Third Slide"
-                 height="300px" width="300px">
-        </div>
-    </div>
-    <!-- Carousel controls -->
-    <a class="carousel-control left" href="#myCarousel2" data-slide="prev">
-        <span class="glyphicon glyphicon-chevron-left"></span>
-    </a>
-    <a class="carousel-control right" href="#myCarousel2" data-slide="next">
-        <span class="glyphicon glyphicon-chevron-right"></span>
-    </a>
-</div>
-        
-        </div>  
-  
-        
-    <div id="Carousel3" class="new-products">
-    <h1>Carousel3</h1>
-    <!-------------------------------------------------------->                 
-        <div id="myCarousel3" class="carousel slide" data-ride="carousel" style="height: 380px;">
-    <!-- Carousel indicators -->
-    <ol class="carousel-indicators">
-        <li data-target="#myCarousel3" data-slide-to="0" class="active"></li>
-        <li data-target="#myCarousel3" data-slide-to="1"></li>
-        <li data-target="#myCarousel3" data-slide-to="2"></li>
-    </ol>
-
-    <!-- Wrapper for carousel items -->
-    <div class="carousel-inner">
-        <div class="item active">
-            <%= link_to(image_tag("dummy.jpg", :alt => "First Slide", :width => "300px", :height => "300px", :title => "Product"), Category.last) %>
-        </div>
-
-        <div class="item">
-            <img src="/assets/dummy.jpg" alt="Second Slide" height="300px" width="300px">
-        </div>
-
-        <div class="item">
-            <img src="/assets/dummy.jpg" alt="Third Slide"
-                 height="300px" width="300px">
-        </div>
-
-        <div class="item">
-            <img src="/assets/dummy.jpg" alt="Fourth Slide"
-                 height="300px" width="300px">
-        </div>
-
-
-    </div>
-
-    <!-- Carousel controls -->
-    <a class="carousel-control left" href="#myCarousel3" data-slide="prev">
-        <span class="glyphicon glyphicon-chevron-left"></span>
-    </a>
-    <a class="carousel-control right" href="#myCarousel3" data-slide="next">
-        <span class="glyphicon glyphicon-chevron-right"></span>
-    </a>
-</div>
-        
-        </div>  
-        
-        
-        
-  </div>
-  
-    
  </div>
-    </div>
-    </div>  
-   </body>
+</div>  
+</body>

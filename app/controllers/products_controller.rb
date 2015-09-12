@@ -11,17 +11,16 @@ class ProductsController < ApplicationController
 
 
 		@latest = Latest.all.one
-		@curr = @latest.count
-		@curr =(@curr +1)%3
+		@latest.count = @latest.count+1
+		@lproduct=@latest.latestproducts.new
+		@lproduct.product_name=@product.product_name
+		@lproduct.added_date=@product.added_date
+		@lproduct.image=@product.image
 		
-		if(@latest.l_products)
-			@latest.l_products.push(@product.product_name)		
-		end
-
 		@category.save
-		@subcategory.save
 		@product.save
 		@latest.save
+		@lproduct.save
 		redirect_to @subcategory
 	end
 
@@ -30,7 +29,7 @@ class ProductsController < ApplicationController
 	end
 
 	def post_params
-	params.require(:product).permit(:product_id,:product_name)
+	params.require(:product).permit(:product_id,:product_name,:image)
 	end
 
 	def show
@@ -39,14 +38,13 @@ class ProductsController < ApplicationController
 		@subcategory = @category.subcategories.where("products._id"=> params[:id]).one
 		@product = Category.where("subcategories.products._id"=>params[:id]).one.subcategories.where("products._id"=> params[:id]).one.products.find(params[:id])
 		
-		if(@product.views)
-			@product.views=@product.views+1
-		else
-			@product.views=1
-		end
-
+		@product.views=@product.views+1
+		@latest=Latest.last.latestproducts.where("product_name" => params[:id]).one
+		
+		@latest.views=@product.views		
 		
 		@product.save
+		@latest.save
 		#@subcategories = @category.subcategories.all
 	end
 

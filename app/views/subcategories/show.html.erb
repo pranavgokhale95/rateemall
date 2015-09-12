@@ -1,8 +1,35 @@
 <h1>subcategory#show</h1>
 
 <%= @subcategory._id %>
-
+<br>
 <% if @subcategory.products.size > 0 %>
+
+<!--- adding links -->
+<%= link_to "sort by views", {:controller => "subcategories", :action => "show", :sort => "views", :order => "asc" } %>
+<br>
+<%= link_to "sort by date", {:controller => "subcategories", :action => "show", :sort => "date", :order => "asc"} %>
+<br>
+<%= link_to "A-Z", {:controller => "subcategories", :action => "show", :sort => params[:sort], :order => "asc"} %>
+<br>
+<%= link_to "Z-A", {:controller => "subcategories", :action => "show", :sort => params[:sort], :order => "desc"} %>
+
+
+<% @order = params[:order] %>
+
+<% if params[:sort] == "views" %>
+
+<% for product in @subcategory.products.order_by(:views => @order) %>
+<h3> <%= link_to product.product_name, product %></h3>
+<% end %>
+
+<% elsif params[:sort] == "date" %>
+
+<% for product in @subcategory.products.order_by(:added_date => @order) %>
+<h3> <%= link_to product.product_name, product %></h3>
+<% end %>
+
+
+<% else %>
 
 <% for product in @subcategory.products %>
 <h3> <%= link_to product.product_name, product %></h3>
@@ -10,8 +37,11 @@
 
 <% end %>
 
+<% end %>
+
 <%= form_for [@subcategory, Product.new] do |f| %>
 
+<p> <%= f.file_field :image %>
 <p> <%= f.label :product_name %> <%= f.text_field :product_name %> </p>
 
 <p> <%= f.submit %>

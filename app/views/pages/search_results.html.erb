@@ -1,0 +1,10 @@
+<h1>search results for <%= params[:query] %> </h1>
+
+<% @products=Latest.one.latestproducts.search(params[:query]) %>
+
+<%= @products.size.to_s + " product(s) found" %>
+<br>
+
+<% for product in @products %>
+<%= link_to product.product_name, '/products/'+product.product_name %>
+<% end %>

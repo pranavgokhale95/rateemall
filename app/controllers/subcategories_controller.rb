@@ -1,4 +1,5 @@
 class SubcategoriesController < ApplicationController
+	helper_method :onclickevent
 	def create
 	@category=Category.find(params[:category_id])
 	@subcategory=@category.subcategories.new(post_params)
@@ -26,6 +27,10 @@ class SubcategoriesController < ApplicationController
 
 	def index
 
+	end
+
+	def onclickevent()
+		
 	end
 
 end
