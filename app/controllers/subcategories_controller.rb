@@ -17,7 +17,7 @@ class SubcategoriesController < ApplicationController
 	end
 
 	def post_params
-		params.require(:subcategory).permit(:subcategory_id,:subcategory_name)
+		params.require(:subcategory).permit(:subcategory_name)
 	end
 
 	def addproduct

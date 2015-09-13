@@ -7,6 +7,7 @@ class ReviewsController < ApplicationController
 		@review=@product.reviews.new(post_params)
 		@review.product_name=params[:product_id]
 		@review.review_date = Time.now.utc.iso8601
+		@review.email=current_user.email
 		
 		@probability=Sentimentalizer.analyze(@review.body,true).split(':')[2].split(',')[0]
 		@review.rating = ((@probability.to_f)*10).round(1)
@@ -29,6 +30,31 @@ class ReviewsController < ApplicationController
 	end
 
 	def post_params
-		params.require(:review).permit(:author,:product_name,:body)
+		params.require(:review).permit(:email,:product_name,:body)
 	end
+
+	def update
+		@product=Category.one.subcategories.where("products.product_name"=>params[:product_name]).one.products.find(params[:product_name])
+		@reviews = @product.reviews
+
+
+		for review in @reviews
+			if review.email==current_user.email
+				review.body=params[:review][:body]
+				@product.avg_rating = ((@product.avg_rating * @product.reviews.count)-review.rating) 
+
+				@probability=Sentimentalizer.analyze(review.body,true).split(':')[2].split(',')[0]
+				review.rating = ((@probability.to_f)*10).round(1)
+				review.save
+				break
+			end
+		end
+		@product.avg_rating = @product.avg_rating+((@probability.to_f)*10).round(1)/@product.reviews.count 
+		@product.save
+		redirect_to @product
+
+
+	end
+
+
 end

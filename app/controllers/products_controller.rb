@@ -48,6 +48,10 @@ class ProductsController < ApplicationController
 		#@subcategories = @category.subcategories.all
 	end
 
+	def delete_review
+		alsdkl
+	end
+	
 	def index
 	end
 end

@@ -1,6 +1,6 @@
 class Review
   include Mongoid::Document
-  field :author
+  field :email, :type => String
   field :product_name
   field :body
   field :review_date, :type => Time
