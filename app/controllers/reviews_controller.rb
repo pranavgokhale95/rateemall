@@ -34,7 +34,9 @@ class ReviewsController < ApplicationController
 	end
 
 	def update
-		@product=Category.one.subcategories.where("products.product_name"=>params[:product_name]).one.products.find(params[:product_name])
+		@product = Category.where("subcategories.products._id"=>params[:product_name]).one.subcategories.where("products._id"=> params[:product_name]).one.products.find(params[:product_name])
+
+		#@product=Category.one.subcategories.where("products.product_name"=>params[:product_name]).one.products.find(params[:product_name])
 		@reviews = @product.reviews
 
 
@@ -49,7 +51,7 @@ class ReviewsController < ApplicationController
 				break
 			end
 		end
-		@product.avg_rating = @product.avg_rating+((@probability.to_f)*10).round(1)/@product.reviews.count 
+		@product.avg_rating = (@product.avg_rating+((@probability.to_f)*10).round(1))/@product.reviews.count 
 		@product.save
 		redirect_to @product
 

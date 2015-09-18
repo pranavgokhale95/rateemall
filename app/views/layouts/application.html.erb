@@ -7,11 +7,17 @@
   <%= csrf_meta_tags %>
 </head>
 <body>	
-	<p class="notice"><%= notice %></p>
+	<!--<p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
+-->
+<%= flash_messages %>
 
 <%= render '/shared/navbar' %>
+<%= render '/shared/sidebar' %>
+
+<div class="container-fluid keepspace">
 <%= yield %>
+</div>
 
 </body>
 </html>

@@ -1,26 +1,31 @@
-<h1>Categories</h1>
+<div class="row">
+	<div class="col-md-10">
+		<h1>Categories</h1>
+		<% @categories.each do |category| %>
+		<%= link_to category.category_name, category %>
+		<br>
+		<% end %>
 
-<% @categories.each do |category| %>
-<%= link_to category.category_name, category %>
-<br>
-<% end %>
+		<%= link_to "Add New", new_category_path %>
 
-<%= link_to "Add New", new_category_path %>
-
-<% @latest = Category.order_by(:last_modified => "asc").last %>
-</br>
-
+		<% @latest = Category.order_by(:last_modified => "asc").last %>
+		</br>
 </br>
 
 
 <% if @latest %>
-<%= @latest._id %>
+<% @latest._id %>
 <% end %>
 
-<%= link_to "Sign out", destroy_user_session_path, :method => :delete %>
+<% link_to "Sign out", destroy_user_session_path, :method => :delete %>
 <br>
-<%= link_to "Sign in", new_user_session_path%>
+<% link_to "Sign in", new_user_session_path%>
 <br>
-<%= link_to "Sign up", new_user_registration_path %>
+<% link_to "Sign up", new_user_registration_path %>
 
-<%= current_user.email %>
+<% if current_user %>
+<% current_user.email %>
+<% end %>
+</div>
+</div>
+

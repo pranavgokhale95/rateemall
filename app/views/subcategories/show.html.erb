@@ -1,48 +1,63 @@
-<h1>subcategory#show</h1>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>  
 
-<%= @subcategory._id %>
-<br>
-<% if @subcategory.products.size > 0 %>
+<div class="col-md-10">
+	<div class="dropdowncolour">
+		<div class="col-md-3 col-md-offset-9">
+			<div class="dropdown">
+				<button class="btn btn-primary dropdown-toggle  otherbtn" type="button" data-toggle="dropdown">Sort-By
+					<span class="caret"></span></button>
+					<ul class="dropdown-menu">
+						<li><%= link_to "Views", {:controller => "subcategories", :action => "show", :sort => "views", :order => "asc" } %></li>
 
-<!--- adding links -->
-<%= link_to "sort by views", {:controller => "subcategories", :action => "show", :sort => "views", :order => "asc" } %>
-<br>
-<%= link_to "sort by date", {:controller => "subcategories", :action => "show", :sort => "date", :order => "asc"} %>
-<br>
-<%= link_to "A-Z", {:controller => "subcategories", :action => "show", :sort => params[:sort], :order => "asc"} %>
-<br>
-<%= link_to "Z-A", {:controller => "subcategories", :action => "show", :sort => params[:sort], :order => "desc"} %>
+						<li> <%= link_to "Date", {:controller => "subcategories", :action => "show", :sort => "date", :order => "asc"} %> </li>
+						<li> <%= link_to "A-Z", {:controller => "subcategories", :action => "show", :sort => params[:sort], :order => "asc"} %> </li>
+						<li> <%= link_to "Z-A", {:controller => "subcategories", :action => "show", :sort => params[:sort], :order => "desc"} %> </li>
+					</ul>
+				</div>
+			</div>
+		</div>       
+		
+		<% @order = params[:order] %>
+
+		<% if params[:sort] == "views" %>
+
+		<% @products=@subcategory.products.order_by(:views => @order) %>
+
+		<% elsif params[:sort] == "date" %>
+
+		<% @products=@subcategory.products.order_by(:added_date => @order) %>
+
+		<% else %>
+
+		<% @products=@subcategory.products %>
+		<% end %>
+
+		<% for product in @products %>
+		
+		<div class="col-md-3 no-pad">
+			<div class="thumbnail">
+				
+				<%=link_to (image_tag(product.image.url, :height=>"400px", :width=>"400px", :crop => :fill)), product %>
+			</div>
+			<div class="caption">
+				<h3><%= link_to product.product_name, product, :class => :caption %></h3>
+			</div>
+		</div>		
+		<% end %>
+
+		<div class="row">
+			<div class="col-md-10">
+				
+				<p><%= link_to "Add product", {:controller => "subcategories", :action => "addproduct", :subcategory_id => @subcategory._id } %> </p>
+
+			</div>
+
+		</div>
+	</div>
+</body>
+</html>
 
 
-<% @order = params[:order] %>
-
-<% if params[:sort] == "views" %>
-
-<% for product in @subcategory.products.order_by(:views => @order) %>
-<h3> <%= link_to product.product_name, product %></h3>
-<% end %>
-
-<% elsif params[:sort] == "date" %>
-
-<% for product in @subcategory.products.order_by(:added_date => @order) %>
-<h3> <%= link_to product.product_name, product %></h3>
-<% end %>
-
-
-<% else %>
-
-<% for product in @subcategory.products %>
-<h3> <%= link_to product.product_name, product %></h3>
-<% end %>
-
-<% end %>
-
-<% end %>
-
-<%= form_for [@subcategory, Product.new] do |f| %>
-
-<p> <%= f.file_field :image %>
-<p> <%= f.label :product_name %> <%= f.text_field :product_name %> </p>
-
-<p> <%= f.submit %>
-<% end %>

@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   devise_for :users
-  resources :articles
+  #resources :articles
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   resources :categories, shallow: true do
     get 'addsubcategory'
     resources :subcategories, shallow: true do
+      get 'addproduct'
       resources :products, shallow: true do
         resources :reviews, shallow: true do
         end
