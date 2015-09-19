@@ -3,7 +3,8 @@
     <div class="container-fluid">
       <div class="navbar-header">
         <a class="navbar-brand" href="#"><img src="" ></a>
-        <%= link_to "Rate It", root_path, :class =>"navbar-brand textwhite" %>
+        <%= link_to "Rate It", root_path, :class =>"navbar-brand textwhite", data: { no_turbolink: true }
+ %>
       </div>
       <div>
         <ul class="nav navbar-nav navbar-right">

@@ -1,8 +1,15 @@
-<h1>add subcategory</h1>
+<div class="row">
+	<div class="col-md-10">
+		<h1>Add subcategory</h1>
 
-<%= simple_form_for [@category, Subcategory.new], html: { class: 'form-horizontal' } , wrapper: :horizontal_form do |f| %>
+		<%= simple_form_for [@category, Subcategory.new] do |f| %>
 
-<p> <%= f.input :subcategory_name %> </p>
-
-<p> <%= f.button :submit, :class => "btn-primary" %>
-<% end %>
+		<div class="form-inputs">
+			<%= f.input :subcategory_name %>
+		</div>
+		<div class="form-actions">
+			<%= f.button :submit, "Add",:class => "btn-primary" %>
+		</div>
+		<% end %>
+	</div>
+</div>

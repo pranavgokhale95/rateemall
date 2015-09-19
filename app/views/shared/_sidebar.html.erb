@@ -28,6 +28,7 @@
         
         <% for category in @categories %>              
         <li> <%= link_to category._id, "#"+dom_id(category, :infos), "data-toggle" => "modal", 'data-target' => "#"+dom_id(category, :infos), :class => "page-scroll" %></li>
+        <li class="nav-divider"></li>
         <% end %>
 
         <% end %>
