@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Rateemall</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-  <%= csrf_meta_tags %>
+	<title>Rateemall</title>
+	<%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+	<%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+	<%= csrf_meta_tags %>
 </head>
-<body>	
+<body data-spy="scroll" data-target="#myScrollspy" data-offset="20">
 	<!--<p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
 -->
@@ -15,9 +15,9 @@
 <%= render '/shared/navbar' %>
 <%= render '/shared/sidebar' %>
 
-<div class="container-fluid keepspace">
-<%= yield %>
+<div class="wrapper">
+	<%= yield %>
 </div>
-
 </body>
+
 </html>

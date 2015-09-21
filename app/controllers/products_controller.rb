@@ -29,7 +29,7 @@ class ProductsController < ApplicationController
 	end
 
 	def post_params
-	params.require(:product).permit(:product_id,:product_name,:image)
+		params.require(:product).permit(:product_id,:product_name,:image,:price,:specs,:synopsis,:location,:rent,:rank)
 	end
 
 	def show
@@ -39,7 +39,7 @@ class ProductsController < ApplicationController
 		@product = Category.where("subcategories.products._id"=>params[:id]).one.subcategories.where("products._id"=> params[:id]).one.products.find(params[:id])
 		
 		@product.views=@product.views+1
-		@latest=Latest.last.latestproducts.where("product_name" => params[:id]).one
+		@latest=Latest.one.latestproducts.where("product_name" => params[:id]).one
 		
 		@latest.views=@product.views		
 		
@@ -48,8 +48,8 @@ class ProductsController < ApplicationController
 		#@subcategories = @category.subcategories.all
 	end
 
-	def delete_review
-		alsdkl
+	def destroy
+		redirect_to root_path
 	end
 	
 	def index

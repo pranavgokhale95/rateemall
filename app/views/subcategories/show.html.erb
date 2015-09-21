@@ -11,7 +11,6 @@
 					<span class="caret"></span></button>
 					<ul class="dropdown-menu">
 						<li><%= link_to "Views", {:controller => "subcategories", :action => "show", :sort => "views", :order => "asc" } %></li>
-
 						<li> <%= link_to "Date", {:controller => "subcategories", :action => "show", :sort => "date", :order => "asc"} %> </li>
 						<li> <%= link_to "A-Z", {:controller => "subcategories", :action => "show", :sort => params[:sort], :order => "asc"} %> </li>
 						<li> <%= link_to "Z-A", {:controller => "subcategories", :action => "show", :sort => params[:sort], :order => "desc"} %> </li>
@@ -37,25 +36,25 @@
 
 		<% for product in @products %>
 		
+		<% if product.product_name %>
 		<div class="col-md-3 no-pad">
 			<div class="thumbnail">
-				
 				<%=link_to (image_tag(product.image.url, :height=>"400px", :width=>"400px", :crop => :fill)), product %>
 			</div>
 			<div class="caption">
 				<h3><%= link_to product.product_name, product, :class => :caption %></h3>
 			</div>
-		</div>		
+		</div>
+		<% end %>		
 		<% end %>
 
 		<div class="row">
 			<div class="col-md-10">
-				
 				<p><%= link_to "Add product", {:controller => "subcategories", :action => "addproduct", :subcategory_id => @subcategory._id } %> </p>
-
 			</div>
-
 		</div>
+
+
 	</div>
 </body>
 </html>

@@ -2,7 +2,7 @@
 
     <div class="col-md-2">
       <!--Sidebar content-->
-      <% @categories = Category.all %>
+      <% @categories = Category.order_by(:id => "asc") %>
 
       <ul class="nav nav-pills nav-stacked" id="stacked-menu">
         <% if request.env['PATH_INFO']==root_path %> 

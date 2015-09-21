@@ -21,11 +21,29 @@
 				</div>
 				<div class="col-md-5">
 					<h1><%= @product._id %></h1>
+					<p><%= (@product.added_date + Time.zone_offset('IST')).strftime("%A,%d %B %Y") %></p>
+					<% @s=Set.new ['price', 'location','specs', 'synopsis','location','rent','rank'] %>
 					<ul>
-						<li><%= (@product.added_date + Time.zone_offset('IST')).strftime("%A,%d %B %Y") %></li>
-						<li>Android</li>
-						<li>Proccesor</li>
-						<li>RAM</li>
+					<% @product.attributes.each_pair do |name, value| %>
+						<% if @s.include? name and value and value != 0.0 and value!="" %>
+						<% if name=='specs' %>
+						<li> SPECS: </li>
+						<ul>
+						<% @specs = value.split("\n") %>
+						<% for spec in @specs %>
+						<li><%= spec %></li>
+						<% end %>
+						</ul>
+
+						<% else %>
+						<li><%= name.upcase %> : <%= value %></li>						
+						<% end %>
+
+
+						
+						<% end %>
+
+					<% end %>
 					</ul> 
 				</div>
 			</div>
