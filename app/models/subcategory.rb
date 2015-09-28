@@ -3,6 +3,8 @@ class Subcategory
   field :subcategory_name, :type => String
   field :last_modified, :type=>Time
   validates_uniqueness_of :subcategory_name, :allow_nil => false
+  validates_presence_of :subcategory_name
+
 
   field :_id, type: String, default: ->{ subcategory_name }
   embeds_many :products

@@ -33,4 +33,18 @@ class SubcategoriesController < ApplicationController
 		
 	end
 
+	def destroy
+		@category = Category.where("subcategories._id"=>params[:id]).one
+		@subcategory = @category.subcategories.find(params[:id])
+
+		for product in @subcategory.products
+			@latest=Latest.one.latestproducts.where("product_name" => product.product_name).one
+			@latest.destroy
+		end
+
+		@subcategory.destroy
+
+		redirect_to root_path
+	end
+
 end

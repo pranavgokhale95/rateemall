@@ -1,6 +1,7 @@
 require "sentimentalizer"
 class ReviewsController < ApplicationController
 	def create
+
 		@category=Category.where("subcategories.products._id"=>params[:product_id]).one
 		@subcategory = @category.subcategories.where("products._id"=>params[:product_id]).one
 		@product=@subcategory.products.find(params[:product_id])
@@ -8,11 +9,22 @@ class ReviewsController < ApplicationController
 		@review.product_name=params[:product_id]
 		@review.review_date = Time.now.utc.iso8601
 		@review.email=current_user.email
-		
-		@probability=Sentimentalizer.analyze(@review.body,true).split(':')[2].split(',')[0]
-		@review.rating = ((@probability.to_f)*10).round(1)
 
-		@avg_rating = 0;
+		@temp = ""
+		@temp =@temp + @review.body
+
+
+		@probability=SadPanda.polarity(@temp)
+		puts "probability"
+		puts @probability
+
+		@cal_rating = ((@probability.to_f)).round(1)
+		@review.rating = (2*@review.rating)+@cal_rating
+		@review.rating = @review.rating/3
+		@review.sent_rating = @cal_rating
+
+		@avg_rating = 0
+
 		for review in @product.reviews
 			@avg_rating = @avg_rating+review.rating
 		end
@@ -23,14 +35,19 @@ class ReviewsController < ApplicationController
 		@latest.avg_rating = @avg_rating
 		@product.save
 		@latest.save
+
 		if(@review.save)
 			redirect_to @product
 		end
 
 	end
 
+	def new
+		@review = review.new
+	end
+
 	def post_params
-		params.require(:review).permit(:email,:product_name,:body)
+		params.require(:review).permit(:email,:product_name,:body,:rating)
 	end
 
 	def update
@@ -42,16 +59,31 @@ class ReviewsController < ApplicationController
 
 		for review in @reviews
 			if review.email==current_user.email
+
 				review.body=params[:review][:body]
 				@product.avg_rating = ((@product.avg_rating * @product.reviews.count)-review.rating) 
 
-				@probability=Sentimentalizer.analyze(review.body,true).split(':')[2].split(',')[0]
-				review.rating = ((@probability.to_f)*10).round(1)
+				review.rating=params[:review][:rating]
+
+				temp = ""
+				temp =temp + review.body
+
+				@probability=SadPanda.polarity(temp)
+
+				@cal_rating = ((@probability.to_f)).round(1)
+				review.sent_rating = @cal_rating
+
+				
+				review.rating = (2*review.rating)+@cal_rating
+				review.rating = review.rating/3
+
+				@review=review
+				
 				review.save
 				break
 			end
 		end
-		@product.avg_rating = (@product.avg_rating+((@probability.to_f)*10).round(1))/@product.reviews.count 
+		@product.avg_rating = (@product.avg_rating+@review.rating)/@product.reviews.count 
 		@product.save
 		redirect_to @product
 

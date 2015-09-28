@@ -3,22 +3,30 @@
 <div class="col-md-10">
 	<div class="row">
 
+		<% @admins=Set.new ['suraj@admin.com', 'shriya@admin.com','sourabh@admin.com', 'pranav@admin.com' ]%>
+
+		<% if current_user and @admins.include? current_user.email %>
+
 		<%= simple_form_for [@subcategory, Product.new] do |f| %>
 
 		<div class="form-inputs">
 			<%= f.input :image, as: :file%>
 			<%= f.input :product_name %>
 			<%= f.input :price %>
-			<%= f.input :specs, :as => :text %>
-			<%= f.input :synopsis %>
+			<%= f.input :specs, :as => :text, :input_html => { :cols => 5, :rows => 6 } %>
+			<%= f.input :synopsis, :as => :text, :input_html => { :cols => 5, :rows => 6 }%>
 			<%= f.input :location %>
 			<%= f.input :rent %>
-			<%= f.input :rank %> 
 		</div>
 		
 		<div class="form-actions">
 			<%= f.button :submit, "Add", :class => "textwhite"%>
 		</div>
+		<% end %>
+
+		<% else %>
+		<h1> Permission denied </h1>
+		<p> Only admins can add category </p>
 		<% end %>
 
 	</div>

@@ -3,4 +3,6 @@ class PagesController < ApplicationController
 		render template: "pages/#{params[:page]}"
 		@query=params[:query]
 	end
+
+	
 end

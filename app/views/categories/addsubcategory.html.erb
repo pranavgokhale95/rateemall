@@ -1,5 +1,8 @@
 <div class="col-md-10">
 	<div class="row">
+		<% @admins=Set.new ['suraj@admin.com', 'shriya@admin.com','sourabh@admin.com', 'pranav@admin.com' ]%>
+
+		<% if current_user and @admins.include? current_user.email %>
 		<h1>Add subcategory</h1>
 
 		<%= simple_form_for [@category, Subcategory.new] do |f| %>
@@ -10,6 +13,12 @@
 		<div class="form-actions">
 			<%= f.button :submit, "Add",:class => "btn-primary" %>
 		</div>
+		<% end %>
+
+		<% else %>
+		<h1> Permission denied </h1>
+		<p> Only admins can add category </p>
+
 		<% end %>
 	</div>
 </div>

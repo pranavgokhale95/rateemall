@@ -3,25 +3,40 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>  
 
-<div class="col-md-10">
-	<div class="dropdowncolour">
-		<div class="col-md-3 col-md-offset-11">
-			<div class="dropdown">
-				<button class="btn btn-primary dropdown-toggle  otherbtn" type="button" data-toggle="dropdown">Sort-By
-					<span class="caret"></span></button>
-					<ul class="dropdown-menu">
-						<li><%= link_to "Views", {:controller => "subcategories", :action => "show", :sort => "views", :order => "asc" } %></li>
-						<li> <%= link_to "Date", {:controller => "subcategories", :action => "show", :sort => "date", :order => "asc"} %> </li>
-						<li> <%= link_to "A-Z", {:controller => "subcategories", :action => "show", :sort => params[:sort], :order => "asc"} %> </li>
-						<li> <%= link_to "Z-A", {:controller => "subcategories", :action => "show", :sort => params[:sort], :order => "desc"} %> </li>
-					</ul>
+<div class="col-md-10 paddingadjust">
+	<div class="row">
+		<div class="dropdowncolour">
+			<div class="col-md-2 col-md-offset-1">
+				<div class="dropdown">
+					<button class="btn btn-primary dropdown-toggle  otherbtn textwhite" style="margin-top:20px;margin-bottom:20px;" type="button" data-toggle="dropdown">Sort-By
+						<span class="caret"></span></button>
+						<ul class="dropdown-menu">
+							<li><%= link_to "Price (low to high)", {:controller => "subcategories", :action => "show", :sort => "price", :order => "asc" },data: { no_turbolink: true } %></li>
+							<li><%= link_to "Rating (low to high)", {:controller => "subcategories", :action => "show", :sort => "rating", :order => "asc" },data: { no_turbolink: true } %></li>
+							<li><%= link_to "Views (minimum first)", {:controller => "subcategories", :action => "show", :sort => "views", :order => "asc" },data: { no_turbolink: true } %></li>
+							<li> <%= link_to "Date (Oldest first)", {:controller => "subcategories", :action => "show", :sort => "date", :order => "asc"},data: { no_turbolink: true } %> </li>
+							<li> <%= link_to "A-Z", {:controller => "subcategories", :action => "show", :sort => params[:sort], :order => "asc"},data: { no_turbolink: true } %> </li>
+							<li> <%= link_to "Z-A", {:controller => "subcategories", :action => "show", :sort => params[:sort], :order => "desc"},data: { no_turbolink: true } %> </li>
+							<% if params[:sort] or params[:order] %>
+							<li> <%= link_to "Clear all", {:controller => "subcategories", :action => "show"},data: { no_turbolink: true } %> </li>
+							<% end %>
+						</ul>
+					</div>
 				</div>
 			</div>
 		</div>       
 		
 		<% @order = params[:order] %>
 
-		<% if params[:sort] == "views" %>
+		<% if params[:sort] == "price" %>
+
+		<% @products=@subcategory.products.order_by(:price => @order) %>
+
+		<% elsif params[:sort] == "rating" %>
+
+		<% @products=@subcategory.products.order_by(:avg_rating => @order) %>
+
+		<% elsif params[:sort] == "views" %>
 
 		<% @products=@subcategory.products.order_by(:views => @order) %>
 
@@ -29,28 +44,66 @@
 
 		<% @products=@subcategory.products.order_by(:added_date => @order) %>
 
-		<% else %>
+		<% elsif params[:order] %>
 
-		<% @products=@subcategory.products %>
-		<% end %>
-
-		<% for product in @products %>
+		<% @products=@subcategory.products.order_by(:product_name => @order) %>
 		
-		<% if product.product_name %>
-		<div class="col-md-3 no-pad">
-			<div class="thumbnail">
-				<%=link_to (image_tag(product.image.url, :height=>"400px", :width=>"400px", :crop => :fill)), product %>
-			</div>
-			<div class="caption">
-				<h3><%= link_to product.product_name, product, :class => :caption %></h3>
-			</div>
-		</div>
-		<% end %>		
+		<% else %>
+		
+		<% @products=@subcategory.products.order_by(:product_name => "asc") %>
+		
 		<% end %>
+		<div class="row">
+			<% for product in @products %>
+			<% name = product.product_name %>
+			<% if product.product_name %>
+			
+			<div class="col-md-3 col-md-offset-1">
+				<div class="thumbnail">
+					
+					<div class="itemjhol">
+
+						<div class="imgchange">
+							<%=link_to (image_tag(product.image.url)), product%>
+						</div>
+
+						<a href="/products/<%= product.product_name %>">
+						
+						<div class="captionjhol">
+							<% disp_caps = product.product_name.split("_") %>
+							<% for disp_cap in disp_caps %>
+							<h4 class="text-center"><%= disp_cap %></h4>
+							<% end %>
+							<h3 class="text-center"><%= product.avg_rating.to_f.round(1) %> / 10</h3>
+						</div>
+						</a>
+						
+					</div>
+				</div>
+				
+				<div class="caption">
+					<% if name.length >= 25 %>
+					<% name = name[0, 18] %>
+					<h4  style="padding-left:55px;"><b><%= link_to name, product, :class => :caption %>...</b></h4>
+					<% else %>
+					<h4 align="center" style="padding-left:55px;"><b><%= link_to product.product_name, product, :class => :caption %></b></h4>
+					<% end %>
+				</div>
+			</div>
+			<% end %>		
+			<% end %>
+		</div>
 
 		<div class="row">
-			<div class="col-md-10">
+			<div class="col-md-2 col-md-offset-1">
+			<% @admins=Set.new ['suraj@admin.com', 'shriya@admin.com','sourabh@admin.com', 'pranav@admin.com' ]%>
+
+			<% if current_user and @admins.include? current_user.email %>
+
 				<p><%= link_to "Add product", {:controller => "subcategories", :action => "addproduct", :subcategory_id => @subcategory._id } %> </p>
+
+			<%= button_to "Delete", @subcategory, :method => :delete, :class => "btn textwhite" %>
+			<% end %>
 			</div>
 		</div>
 
@@ -58,5 +111,3 @@
 	</div>
 </body>
 </html>
-
-

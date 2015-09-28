@@ -1,16 +1,26 @@
 <div class="col-md-10">
 	<div class="row">
-		<h1>Enter new category information</h1>
+		<% @admins=Set.new ['suraj@admin.com', 'shriya@admin.com','sourabh@admin.com', 'pranav@admin.com' ]%>
 
+		<% if current_user and @admins.include? current_user.email %>
+		<h1>Enter new category information</h1>
 		<%= simple_form_for(@category) do |f| %>
 
 		<div class="form-inputs">
-		<%= f.input :category_name %>
+		<%= f.input :category_name, :defaults => {:required => true}%>
 		</div>
 
 		<div class="form-actions">
-		<%= f.button :submit , :class => "btn-primary"%>
+		<%= f.button :submit , "Create",:class => "btn-primary"%>
 		</div>
+	
+		<% end %>
+
+		<% else %>
+
+		<h1> Permission denied </h1>
+		<p> Only admins can add category </p>
+
 
 		<% end %>
 	</div>

@@ -17,4 +17,7 @@
 //= require jquery.easing.min
 //= require scrolling-nav
 //= require turbolinks
+//= thumb-hover.js
 //= require_tree .
+
+$('.dropdown-toggle').dropdown()

@@ -25,7 +25,7 @@ class ProductsController < ApplicationController
 	end
 
 	def new
-	@product = Product.new
+		@product = Product.new
 	end
 
 	def post_params
@@ -49,7 +49,14 @@ class ProductsController < ApplicationController
 	end
 
 	def destroy
-		redirect_to root_path
+		@category = Category.where("subcategories.products._id"=>params[:id]).one
+		@subcategory = @category.subcategories.where("products._id"=> params[:id]).one
+
+		@product = Category.where("subcategories.products._id"=>params[:id]).one.subcategories.where("products._id"=> params[:id]).one.products.find(params[:id])
+		@product.destroy
+		@latest=Latest.one.latestproducts.where("product_name" => params[:id]).one
+		@latest.destroy
+		redirect_to @subcategory
 	end
 	
 	def index

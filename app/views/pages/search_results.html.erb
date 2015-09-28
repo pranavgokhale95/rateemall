@@ -4,21 +4,73 @@
 
 		<% @products=Latest.one.latestproducts.search(params[:query]) %>
 
+		<% if @products.size >0  %>
 		<%= @products.size.to_s + " product(s) found" %>
 		<br>
+		<br>
+		<% end %>
 
 		<% for product in @products %>
-		
+
 		<div class="col-md-3 no-pad">
 			<div class="thumbnail">
-				
-				<%=link_to (image_tag(product.image.url, :height=>"400px", :width=>"400px", :crop => :fill)), "/products/"+ product.product_name %>
-			</div>
-			<div class="caption">
+					<div class="itemjhol">
+
+						<div class="imgchange">
+							<%=link_to (image_tag(product.image.url)), "/products/" + product.product_name %>
+						</div>
+
+						<a href="/products/<%= product.product_name %>">
+						
+						<div class="captionjhol">
+							<% disp_caps = product.product_name.split("_") %>
+							<% for disp_cap in disp_caps %>
+							<h4 class="text-center"><%= disp_cap %></h4>
+							<% end %>
+							<h3 class="text-center"><%= product.avg_rating.to_f.round(1) %> / 10</h3>
+						</div>
+						</a>
+						
+					</div>
+				</div>
+				<% name = product.product_name %>
+			<div class="caption text-center">
+				<% if name.length >= 15 %>
+				<% name=name[0,15] %>
+				<h3><%= link_to name, "/products/"+ product.product_name, :class => :caption %>...</h3>
+				<% else %>
 				<h3><%= link_to product.product_name, "/products/"+ product.product_name, :class => :caption %></h3>
+				<% end %>
 			</div>
 		</div>
+		<% end %>
+
+		<% if @products.size==0 %>
+
+		<% @categories=Category.search(params[:query]) %>
+
+		<% if @categories.size>0 %>
+		<%= @categories.size.to_s + " categories(s) found" %>
+		<br>
+		<% end %>
+
+		<% for category in @categories %>
+		<h3> <%= link_to category._id, "#"+dom_id(category, :infos), "data-toggle" => "modal", 'data-target' => "#"+dom_id(category, :infos), :class => "caption" %></h3>
+		<% end %>
 
 		<% end %>
+
+		<% if @products.size==0 and @categories.size==0 %>
+		<h3>No match found.</h3>
+		<% end %>
+
+
+		<% string = "The phone touch screen stopped working after few months. I gave it to the service centre and haven't received from last 3 months. Moreover the rudeness and irresponsibility shown from the company is even more frustrating.
+
+		The configurations however might look good, the product quality is below average which causes it to always have problems. It's with most people I met. Micromax products do get issues easily after which you have to forget your phone." %>
+
+		<% SadPanda.polarity(string) %>
+
+		
+		</div>
 	</div>
-</div>

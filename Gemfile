@@ -23,8 +23,6 @@ gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
 
-
-
 gem 'bootstrap-sass'
 gem 'autoprefixer-rails'
 
@@ -32,8 +30,9 @@ gem 'mongoid', '~> 5.0.0.beta', github: 'mongoid/mongoid'
 gem "mongoid-paperclip", :require => "mongoid_paperclip"
 gem 'simple_form'
 gem "sentimentalizer"
+gem 'sad_panda'
 gem "jquery-turbolinks"
-gem 'rails-footnotes', '~> 4.0'
+#gem 'rails-footnotes', '~> 4.0'
 gem 'mongoid_search'
 gem 'devise'
 
